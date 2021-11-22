@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/opt/spotify/spotify-client/spotify flags=(attach_disconnected) {
+profile spotify /opt/spotify/spotify flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/kde>
   #include <abstractions/dbus>
@@ -15,7 +15,7 @@
   network inet stream,
   network inet6 dgram,
   network inet6 stream,
-  
+
   # Home folder
   owner @{HOME}/Music/ r,
   owner @{HOME}/Music/** r,
@@ -29,13 +29,13 @@
   owner @{HOME}/.local/share/fonts/** r,
   owner @{HOME}/.mozilla/plugins/ r,
   owner @{HOME}/.mozilla/plugins/** r,
- 
+
   # Application and libraries
-  /opt/spotify/spotify-client/** mr,
-  /opt/spotify/spotify-client/Data/SpotifyHelper ixr,
+  /opt/spotify/** mr,
   /lib/** mr,
   /usr/** mr,
   /usr/bin/xdg-open Uxr,
+  /opt/spotify/spotify ix,
 
   # dconf
   owner /run/user/*/dconf/     w,
