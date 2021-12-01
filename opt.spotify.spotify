@@ -3,6 +3,7 @@
 profile spotify /opt/spotify/spotify flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/kde>
+  #include <abstractions/gnome>
   #include <abstractions/dbus>
   #include <abstractions/dbus-session>
   #include <abstractions/ibus>
@@ -32,61 +33,34 @@ profile spotify /opt/spotify/spotify flags=(attach_disconnected) {
 
   # Application and libraries
   /opt/spotify/** mr,
-  /lib/** mr,
-  /usr/** mr,
-  /usr/bin/xdg-open Uxr,
   /opt/spotify/spotify ix,
 
   # dconf
   owner /run/user/*/dconf/     w,
   owner /run/user/*/dconf/user rw,
 
-  # Gnome
-  owner @{HOME}/.gtkrc-2.0 r,
-  owner @{HOME}/.gtkrc-2.0-gnome-color-chooser r,
-  owner @{HOME}/.config/gtk-2.0/gtkfilechooser.ini r,
-
-  # QT
-  /etc/xdg/Trolltech.conf rk,
-
-  # Chromium
-  ptrace (trace) peer=@{profile_name},
-
   owner @{HOME}/.pki/nssdb/* rwk,
-
   owner /{dev,run}/shm/{,.}org.chromium.* mrw,
 
   @{PROC}/ r,
   @{PROC}/filesystems r,
   @{PROC}/sys/kernel/shmmax r,
-  owner @{PROC}/[0-9]*/auxv r,
-  owner @{PROC}/[0-9]*/cmdline r,
-  owner @{PROC}/[0-9]*/fd/ r,
-  owner @{PROC}/[0-9]*/io r,
-  owner @{PROC}/[0-9]*/oom_{,score_}adj w,
-  owner @{PROC}/[0-9]*/smaps r,
-  owner @{PROC}/[0-9]*/stat r,
-  owner @{PROC}/[0-9]*/statm r,
-  owner @{PROC}/[0-9]*/status r,
-  owner @{PROC}/[0-9]*/task/ r,
-  owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
+  @{PROC}/sys/fs/inotify/max_user_watches r,
+  @{PROC}/sys/kernel/yama/ptrace_scope r,
 
-  /etc/udev/udev.conf r,
-  deny /run/udev/data/** r,
-  /sys/bus/pci/devices/ r,
-  /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_max_freq r,
-  /sys/devices/pci[0-9]*/**/class r,
-  /sys/devices/pci[0-9]*/**/device r,
-  /sys/devices/pci[0-9]*/**/irq r,
-  /sys/devices/pci[0-9]*/**/resource r,
-  /sys/devices/pci[0-9]*/**/vendor r,
-  /sys/devices/pci[0-9]*/**/removable r,
-  /sys/devices/pci[0-9]*/**/uevent r,
-  /sys/devices/pci[0-9]*/**/block/**/size r,
-  /sys/devices/virtual/block/**/removable r,
-  /sys/devices/virtual/block/**/uevent r,
-  /sys/devices/virtual/block/**/size r,
+  owner @{PROC}/@{pids}/auxv r,
+  owner @{PROC}/@{pids}/cmdline r,
+  owner @{PROC}/@{pids}/fd/ r,
+  owner @{PROC}/@{pids}/io r,
+  owner @{PROC}/@{pids}/oom_{,score_}adj w,
+  owner @{PROC}/@{pids}/smaps r,
+  owner @{PROC}/@{pids}/stat r,
+  owner @{PROC}/@{pids}/statm r,
+  owner @{PROC}/@{pids}/status r,
+  owner @{PROC}/@{pids}/task/ r,
+  owner @{PROC}/@{pids}/task/@{pids}/stat r,
+  owner @{PROC}/@{pids}/task/@{pids}/status r,
 
-  # NOTE: comment out the following line on Ubuntu 14.04 LTS and older.
-  unix (receive, send, connect) peer=(addr=@/tmp/.ICE-unix/*),
+  # Spotify doesn't need your devices
+  deny /sys/** r,
 }
