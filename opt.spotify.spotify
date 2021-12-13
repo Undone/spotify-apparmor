@@ -61,6 +61,9 @@ profile spotify /opt/spotify/spotify flags=(attach_disconnected) {
   owner @{PROC}/@{pids}/task/@{pids}/stat r,
   owner @{PROC}/@{pids}/task/@{pids}/status r,
 
+  # Widevine DRM
+  owner "@{HOME}/.config/spotify/User Data/WidevineCdm/*/_platform_specific/linux_x64/libwidevinecdm.so" m,
+
   # Spotify doesn't need your devices
   deny /sys/** r,
 }
